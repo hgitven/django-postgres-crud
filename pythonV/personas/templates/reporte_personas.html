@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}Reporte de Personas{% endblock %}
+
+{% block content %}
+    <h2>Reporte de Datos Almacenados</h2>
+
+    {% if personas %}
+        <table>
+            <thead>
+                <tr>
+                    <th>DNI</th>
+                    <th>Nombres</th>
+                    <th>Apellidos</th>
+                    <th>Sexo</th>
+                    <th>Teléfono</th>
+                    <th>Correo</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for persona in personas %}
+                <tr>
+                    <td>{{ persona.dni }}</td>
+                    <td>{{ persona.nombres }}</td>
+                    <td>{{ persona.apellidos }}</td>
+                    <td>{{ persona.get_sexo_display }}</td> <!-- Muestra la etiqueta (Masculino) en vez del valor (M) -->
+                    <td>{{ persona.telefono }}</td>
+                    <td>{{ persona.correo }}</td>
+                    <td>
+                        
+                            <!-- El botón de editar es un enlace a la vista de edición -->
+                            <a href="{% url 'editar_persona' persona.pk %}" class="btn" style="background-color: #ffc107; color: black; padding: 5px 10px; font-size: 12px;">Editar</a>
+
+                            <!-- El botón de eliminar está en un formulario para enviar por POST -->
+                            <form action="{% url 'eliminar_persona' persona.pk %}" method="post" style="display: inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="btn" style="background-color: #dc3545; padding: 5px 10px; font-size: 12px;" onclick="return confirm('¿Estás seguro de que deseas eliminar a {{ persona.nombres }} {{ persona.apellidos }}?');">
+                                    Eliminar
+                                </button>
+                            </form>
+                        
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No hay registros almacenados en la base de datos.</p>
+    {% endif %}
+
+    <div style="margin-top: 20px;">
+        <a href="{% url 'registrar_persona' %}" class="btn">Agregar Nuevo Registro</a>
+    </div>
+{% endblock %}

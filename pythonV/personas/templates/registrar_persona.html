@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block title %}Registrar Persona{% endblock %}
+
+{% block content %}
+    <h2>{{ titulo }}</h2>
+    
+    <!-- El atributo novalidate desactiva la validación nativa del navegador para usar la nuestra en JS -->
+    <form method="post" id="formularioPersona" novalidate>
+        {% csrf_token %}
+        
+        <!-- Renderizamos el formulario campo por campo para tener control o usamos as_p -->
+        <div style="margin-bottom: 15px;">
+            {{ form.as_p }}
+        </div>
+
+        <button type="submit" class="btn">Guardar Registro</button>
+        <div id="mensajeGlobal" style="color: red; margin-top: 10px;"></div>
+    </form>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+$(document).ready(function() {
+    
+    // Expresiones Regulares
+    // Email: Formato estándar
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    
+    // Teléfono: Solo números, espacios y guiones, mínimo 7 dígitos
+    const telefonoRegex = /^[0-9\-\s]{7,20}$/;
+
+    $('#formularioPersona').on('submit', function(e) {
+        let esValido = true;
+        let mensajes = [];
+
+        // Obtener valores de los campos generados por Django
+        // Nota: Django genera IDs como id_nombre_del_campo
+        const correo = $('#id_correo').val();
+        const telefono = $('#id_telefono').val();
+
+        // 1. Validar Correo
+        if (!emailRegex.test(correo)) {
+            esValido = false;
+            mensajes.push("❌ El formato del CORREO ELECTRÓNICO no es válido.");
+            $('#id_correo').css('border', '2px solid red');
+        } else {
+            $('#id_correo').css('border', '1px solid #ccc');
+        }
+
+        // 2. Validar Teléfono
+        if (!telefonoRegex.test(telefono)) {
+            esValido = false;
+            mensajes.push("❌ El TELÉFONO debe contener solo números (mínimo 7 dígitos).");
+            $('#id_telefono').css('border', '2px solid red');
+        } else {
+            $('#id_telefono').css('border', '1px solid #ccc');
+        }
+
+        // Si no es válido, detenemos el envío y mostramos mensajes
+        if (!esValido) {
+            e.preventDefault(); // Detener el envío al servidor
+            $('#mensajeGlobal').html(mensajes.join('<br>'));
+            alert("Por favor verifica los datos ingresados:\n\n" + mensajes.join('\n'));
+        }
+    });
+});
+</script>
+{% endblock %}

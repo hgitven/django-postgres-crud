@@ -1,0 +1,43 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Gestión de Personas{% endblock %}</title>
+    <!-- CSS simples apariencia limpia -->
+    <style>
+        body { font-family: sans-serif; margin: 20px; padding: 0; background-color: #f4f4f4; }
+        header { background: #333; color: #fff; padding: 10px 20px; margin-bottom: 20px; }
+        header nav a { color: #fff; text-decoration: none; margin-right: 15px; font-weight: bold; }
+        .container { background: #fff; padding: 20px; border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1); max-width: 800px; margin: auto; }
+        .btn { padding: 10px 15px; background: #007bff; color: white; border: none; cursor: pointer; border-radius: 4px; text-decoration: none;}
+        .btn:hover { background: #0056b3; }
+        .error { color: red; font-size: 0.9em; display: none; margin-top: 5px;}
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+    
+    <!-- JQuery ojo carpeta estática -->
+    <script src="{% static 'JQuery/jquery-4.0.0.min.js' %}"></script>
+</head>
+<body>
+
+    <header>
+        <nav>
+            <a href="{% url 'reporte_personas' %}">📋 Reporte</a>
+            <a href="{% url 'registrar_persona' %}">➕ Registrar Nuevo</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    {% block extra_js %}
+    {% endblock %}
+
+</body>
+</html>

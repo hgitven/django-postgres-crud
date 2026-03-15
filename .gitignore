@@ -1,0 +1,31 @@
+# --- Django ---
+*.log
+*.pot
+*.pyc
+__pycache__/
+db.sqlite3
+media/
+
+# --- Entorno Virtual (Importante) ---
+# Ignoramos las carpetas propias del entorno virtual donde instalé las librerías
+Scripts/
+Include/
+Lib/
+pyvenv.cfg
+tcl/
+share/
+.Python
+
+# --- IDEs y Editores (Opcional pero recomendado) ---
+# Si uso VS Code
+.vscode/
+# Si uso PyCharm
+.idea/
+
+# --- Seguridad ---
+# Nunca subir variables de entorno con contraseñas
+.env
+
+# --- Sistema Operativo ---
+Thumbs.db
+Desktop.ini
